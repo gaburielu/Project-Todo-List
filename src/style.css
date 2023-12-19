@@ -1,0 +1,300 @@
+@font-face {
+  font-family: "uchiyama";
+  src: url("./asset/uchiyama.otf") format("truetype");
+}
+
+:root {
+  --pri-clr: #395d73;
+  --sec-clr: #6ba7bf;
+  --ter-clr: #d9415d;
+  --qua-clr: #8c3d2b;
+  --light-clr: #f2f2f2;
+  --dark-clr: #202426;
+  /* some kinda pair */
+  --step--2: clamp(0.78rem, calc(0.77rem + 0.03vw), 0.8rem);
+  --step--1: clamp(0.94rem, calc(0.92rem + 0.11vw), 1rem);
+  --step-0: clamp(1.13rem, calc(1.08rem + 0.22vw), 1.25rem);
+  --step-1: clamp(1.35rem, calc(1.28rem + 0.37vw), 1.56rem);
+  --step-2: clamp(1.62rem, calc(1.5rem + 0.58vw), 1.95rem);
+  --step-3: clamp(1.94rem, calc(1.77rem + 0.87vw), 2.44rem);
+  --step-4: clamp(2.33rem, calc(2.08rem + 1.25vw), 3.05rem);
+  /* space value pairs */
+  --space-3xs-2xs: clamp(0.31rem, calc(0.2rem + 0.54vw), 0.63rem);
+  --space-2xs-xs: clamp(0.56rem, calc(0.43rem + 0.65vw), 0.94rem);
+  --space-xs-s: clamp(0.88rem, calc(0.74rem + 0.65vw), 1.25rem);
+  --space-s-m: clamp(1.13rem, calc(0.86rem + 1.3vw), 1.88rem);
+  --space-m-l: clamp(1.69rem, calc(1.4rem + 1.41vw), 2.5rem);
+  --space-l-xl: clamp(2.25rem, calc(1.29rem + 4.78vw), 5rem);
+  --space-xl-2xl: clamp(4.5rem, calc(3.46rem + 5.22vw), 7.5rem);
+  --space-2xl-3xl: clamp(6.75rem, calc(4.75rem + 10vw), 12.5rem);
+}
+
+/*  */
+
+body {
+  width: 100vw;
+  color: var(--sec-clr);
+  background-color: var(--dark-clr);
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+}
+
+.mainBody {
+  width: 100vw;
+  display: grid;
+  grid-template-columns: 75vw 25vw;
+  grid-template-rows: 15vh 85vh;
+  grid-template-areas:
+    "header header"
+    "content sidebar";
+}
+
+/* HEADER */
+
+.header {
+  grid-area: header;
+  width: 100%;
+  height: 100%;
+  border-bottom: var(--ter-clr) 2px solid;
+  box-shadow: 0 4px 30px rgba(217, 65, 93, 0.5);
+  text-transform: uppercase;
+  font-family: "uchiyama";
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.header-title {
+  margin: 0px;
+  justify-content: center;
+  align-items: center;
+  font-size: var(--step-2);
+}
+
+.sideHead {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs-s);
+}
+
+.toggleDarkMode{
+  font-size: var(--space-3xs-2xs);
+}
+
+/* MAIN CONTENT */
+
+.mainContent {
+  grid-area: content;
+  font-size: var(--step--1);
+  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+    "Lucida Sans", Arial, sans-serif;
+  border-right: var(--ter-clr) 1px solid;
+  box-shadow: 0 4px 30px rgba(217, 65, 93, 0.5);
+}
+
+/* SIDEBAR */
+
+.sidebar {
+  font-family: "uchiyama";
+
+  grid-area: sidebar;
+  border-left: var(--ter-clr) 1px solid;
+  box-shadow: 0 4px 30px rgba(217, 65, 93, 0.5);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  padding-left: var(--space-m-l);
+}
+
+.sidebar-head {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-s-m);
+  font-size: var(--step-0);
+}
+
+.sidebar-content {
+  font-size: var(--step-1);
+}
+
+.text-hover{
+}
+
+.text-hover:hover{
+  color: var(--qua-clr);
+}
+
+.styled-button{
+  border: none;
+  padding: 0;
+  margin: 0;
+  overflow: visible;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  line-height: normal;
+
+  display: inline-block;
+  width: 200px;
+  height: 40px;
+  background-color: var(--light-clr);
+  border-radius: 4px;
+  text-align: center;
+  line-height: 40px;
+  cursor: pointer;
+}
+
+.styled-button:hover {
+  color: var(--qua-clr);
+}
+
+/* DIALOG/FORM */
+
+.todoDialog {
+  padding: 1em;
+  min-width: 30vw;
+  max-width: 50ch;
+  min-height: 40vh;
+  max-height: 50ch;
+  border-radius: 15px;
+}
+
+.todoDialog::backdrop {
+  background: var(--sec-clr);
+  opacity: 0.5;
+}
+
+.input-field {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.input-field label {
+  font-weight: 500;
+  color: #2e2e2e;
+}
+.input-field input {
+  border: 1px solid #2e2e2e;
+  border-radius: 5px;
+  padding: 0 15px;
+  height: 40px;
+  width: 90%;
+  margin: 5px 0;
+}
+
+.dialogFormButton{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: var(--space-m-l);
+}
+
+#todoDescription,
+#todoTitle{
+  font-family: 'Courier New', Courier, monospace;
+}
+
+/*  */
+
+a {
+  text-decoration: none;
+  color: var(--light-clr);
+}
+a:visited {
+  color: var(--light-clr);
+}
+
+/* FOOTER */
+
+.footer {
+  font-family: "uchiyama";
+}
+
+nav {
+  height: 50vh;
+  width: 100%;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  z-index: 1;
+  overflow: hidden;
+}
+
+#footer-toggle {
+  height: var(--step-3);
+  width: var(--step-3);
+  position: fixed;
+  z-index: 3;
+  left: 4%;
+  bottom: 4%;
+  transform: translateX(-50%);
+  background-color: var(--qua-clr);
+  opacity: 0.5;
+  border: none;
+  border-radius: 5rem;
+  outline: none;
+  box-shadow: 0rem 0rem 4rem rgba(0 0 0 / 35%);
+  cursor: pointer;
+  transition: transform, background-color;
+  transition-timing-function: ease;
+  transition-duration: 400ms;
+  box-shadow: 0 4px 10px rgba(217, 65, 93, 0.5);
+}
+
+#footer-toggle:hover {
+  transform: translateX(-50%) scale(1.5);
+  opacity: 0.9;
+  box-shadow: 0 4px 30px rgba(217, 65, 93, 0.5);
+}
+
+#hiddenFooter {
+  position: fixed;
+  bottom: 0;
+  color: var(--pri-clr);
+  background-color: var(--ter-clr);
+  border: 1px solid var(--qua-clr);
+  height: 0;
+  width: 100%;
+  overflow: hidden;
+  opacity: 0;
+  transition: height 0.5s ease-in-out, opacity 0.5s ease-in-out;
+  font-size: var(--step--1);
+}
+
+#hiddenFooter.show {
+  height: 7vh;
+  opacity: 1;
+}
+
+#hiddenFooter.hidden {
+  height: 0;
+  opacity: 0;
+}
+
+/* TEST */
+
+.tooltip-container {
+  position: relative;
+  display: inline-block; /* Ensures the tooltip is positioned relative to the container */
+}
+
+.tooltip {
+  visibility: hidden;
+  position: absolute;
+  bottom: 100%; /* Position above the element */
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #333;
+  color: #fff;
+  padding: 8px;
+  border-radius: 4px;
+  white-space: nowrap; /* Prevents line breaks in the tooltip */
+  opacity: 0;
+  transition: opacity 0.3s, visibility 0.3s;
+}
+
+.tooltip-container:hover .tooltip {
+  visibility: visible;
+  opacity: 1;
+}

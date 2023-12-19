@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>To Do List</title>
+  </head>
+  <body>
+    <div class="mainBody">
+      <div class="header">
+        <h1 class="header-title">To Do List &#10004;</h1>
+        <div class="sideHead">
+          <a href="#" class="loginLink">login</a>
+          <a href="#" class="signupLink">Sign up</a>
+          <button class="toggleDarkMode">darkmode</button>
+        </div>
+      </div>
+      <div class="mainContent">
+        <div class="todoList">list of to dos</div>
+        <div class="todos">
+          what to do?
+          <div class="tooltip-container">
+            <p class="hover-element">Hover me</p>
+            <div class="tooltip">This is a comment</div>
+          </div>
+        </div>
+      </div>
+      <div class="sidebar">
+        <div class="sidebar-head">
+          <div class="today text-hover">&#127137; All task</div>
+          <div class="daily text-hover">&#127163; Daily</div>
+          <div class="weekly text-hover">&#127165; Weekly</div>
+          <div class="monthly text-hover">&#127166; Monthly</div>
+          <div class="project text-hover">&#9872; Projects</div>
+        </div>
+        <button id="addTodo" class="sidebar-content styled-button">
+          &#10010; Add Task
+        </button>
+        <dialog class="todoDialog" id="form-popup">
+          <form id="form" action="">
+            <div class="toDoForm">
+              <div class="input-field">
+                <label for="todoTitle">Title: </label>
+                <input
+                  type="text"
+                  id="todoTitle"
+                  name="todoTitle"
+                  placeholder="Title for your to dos"
+                  required
+                /><br /><br />
+              </div>
+              <div class="input-field">
+                <label for="todoDescription">Description: </label>
+                <input
+                  type="text"
+                  id="todoDescription"
+                  name="todoDescription"
+                  placeholder="Description of your to dos"
+                /><br /><br />
+              </div>
+              <div class="input-field tooltip-container">
+                <div class="tooltip">Past dates will default to today.</div>
+                <label for="dueDate">Due Date: </label>
+                <input
+                  type="date"
+                  id="dueDate"
+                  name="dueDate"
+                /><br /><br />
+              </div>
+              <fieldset class="todoPriority">
+                <legend>Priority:</legend>
+                <input
+                  id="priorityLow"
+                  name="priority"
+                  type="radio"
+                  value="low"
+                  checked
+                />
+                <label for="priorityLow" class="radio-label">Low</label>
+                <input
+                  id="priorityMedium"
+                  name="priority"
+                  type="radio"
+                  value="medium"
+                />
+                <label for="priorityMedium" class="radio-label">Medium</label>
+                <input
+                  id="priorityHigh"
+                  name="priority"
+                  type="radio"
+                  value="high"
+                />
+                <label for="priorityHigh" class="radio-label">High</label>
+              </fieldset>
+              <br />
+            </div>
+            <div class="dialogFormButton">
+              <input class="dialog-button" type="submit" value="Submit" /><br />
+              <button class="dialog-button" id="closeForm">Cancel</button><br />
+            </div>
+          </form>
+        </dialog>
+      </div>
+    </div>
+    <nav id="hiddenFooter" class="feet hidden">
+      <div class="footer">
+        <p class="acknowledgement" style="text-align: center">
+          Made by ©
+          <a href="https://github.com/Gaburielu" class="link">Gaburielu</a> 2023
+          |
+          <a href="https://www.theodinproject.com/about" class="link"
+            >The Odin Project</a
+          >
+          |
+          <a
+            href="https://github.com/gaburielu/Project-Library/blob/main/README.md"
+            class="link"
+            >Source Code & Credit</a
+          >
+        </p>
+      </div>
+    </nav>
+    <button id="footer-toggle" type="button">C</button>
+  </body>
+</html>
