@@ -1,12 +1,14 @@
 import "./style.css";
 import "./normalize.css";
-import { addNewTodo } from "./todo.js";
-import { format } from "date-fns";
+import { addNewTodo, todo } from "./todo.js";
+import { format, parseISO } from "date-fns";
 
+const listContainer = document.getElementById("listContainer");
+const todoList = [];
 const form = document.getElementById("form-popup");
 const addTodoButton = document.getElementById("addTodo");
 const submit = document.getElementById("form");
-const dueDateInput = document.getElementById('dueDate');
+const dueDateInput = document.getElementById("dueDate");
 const closeForm = document.getElementById("closeForm");
 const toggleFooterButton = document.getElementById("footer-toggle");
 const footer = document.getElementById("hiddenFooter");
@@ -29,15 +31,17 @@ submit.addEventListener("submit", function (e) {
   const description = document.getElementById("todoDescription").value;
   const dueDate = document.getElementById("dueDate").value;
   const formattedDate = format(dueDate, "dd-MM-yyyy");
-
   const priorityElement = document.querySelector(
     'input[name="priority"]:checked'
   );
   const priorityValue = priorityElement ? priorityElement.value : null;
 
-  addNewTodo(title, description, formattedDate, priorityValue);
+  const newTodo = new todo(title, description, formattedDate, priorityValue);
+  todoList.push(newTodo);
+  console.table(todoList);
   clearFormFields();
   form.close();
+  displayTodoList();
 });
 
 function clearFormFields() {
@@ -48,19 +52,49 @@ function clearFormFields() {
   document.getElementById("dueDate").value = formattedCurrentDate;
 }
 
-dueDateInput.addEventListener('input', function() {
-  // Parse the selected date
+dueDateInput.addEventListener("input", function () {
   const selectedDate = new Date(this.value);
-
-  // Get today's date
   const today = new Date();
 
-  // Check if the selected date is in the past
   if (selectedDate < today) {
-    // If it is, set the value to today's date
-    this.value = format(today, 'yyyy-MM-dd');
+    this.value = format(today, "yyyy-MM-dd");
   }
 });
+
+function displayTodoList() {
+  listContainer.textContent = "";
+
+  todoList.forEach((todo, index) => {
+    const card = document.createElement("div");
+    card.classList.add("card");
+
+    const text = document.createElement("span");
+    text.innerHTML = todoList[index].title + todoList[index].todoCheck;
+
+    const changeStatusButton = document.createElement("button");
+    changeStatusButton.classList.add("card-button");
+    changeStatusButton.classList.add("read-status");
+    changeStatusButton.textContent = "Change Status";
+    changeStatusButton.addEventListener("click", () => {
+      todo.todoCheck = !todo.todoCheck;
+      displayTodoList();
+    });
+
+    const removeButton = document.createElement("button");
+    removeButton.classList.add("card-button");
+    removeButton.classList.add("remove-button");
+    removeButton.textContent = "Remove";
+    removeButton.addEventListener("click", () => {
+      todoList.splice(index, 1);
+      displayTodoList();
+    });
+
+    card.appendChild(text);
+    card.appendChild(changeStatusButton);
+    card.appendChild(removeButton);
+    listContainer.appendChild(card);
+  });
+}
 
 /////////////////////////////////////////
 

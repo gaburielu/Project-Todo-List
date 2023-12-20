@@ -5,13 +5,14 @@ const today = new Date();
 const formattedCurrentDate = format(today, 'dd-MM-yyyy');
 console.log(formattedCurrentDate);
 
-class todo{
+export class todo{
     constructor(title, description, dueDate, priority){
         this.title = title,
         this.description = description,
         this.dateCreated = formattedCurrentDate,
         this.dueDate = dueDate,
-        this.priority = priority
+        this.priority = priority,
+        this.todoCheck = "false"
     }
 }
 

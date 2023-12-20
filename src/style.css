@@ -91,6 +91,15 @@ body {
     "Lucida Sans", Arial, sans-serif;
   border-right: var(--ter-clr) 1px solid;
   box-shadow: 0 4px 30px rgba(217, 65, 93, 0.5);
+  display: flex;
+  gap: var(--space-2xs-xs);
+}
+
+.todoList{
+  margin: var(--space-xs-s);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs-xs);
 }
 
 /* SIDEBAR */
