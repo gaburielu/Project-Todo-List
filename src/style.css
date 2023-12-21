@@ -85,6 +85,7 @@ body {
 /* MAIN CONTENT */
 
 .mainContent {
+  overflow-y: auto;
   grid-area: content;
   font-size: var(--step--1);
   font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
@@ -92,21 +93,45 @@ body {
   border-right: var(--ter-clr) 1px solid;
   box-shadow: 0 4px 30px rgba(217, 65, 93, 0.5);
   display: flex;
-  gap: var(--space-2xs-xs);
 }
 
 .todoList{
   margin: var(--space-xs-s);
   display: flex;
   flex-direction: column;
-  gap: var(--space-2xs-xs);
+  gap: var(--space-3xs-2xs);
+  width: 100%;
+}
+
+/* CARD STACK */
+
+.card {
+  font-size: medium;
+  color: var(--sec-clr);
+  font-family: 'Courier New', Courier, monospace;
+  padding-left: var(--space-2xs-xs);
+  border-bottom: 1px solid var(--qua-clr);
+  margin: var(--space-3xs-2xs);
+  padding: var(--space-3xs-2xs) var(--space-xs-s) var(--space-3xs-2xs) var(--space-xs-s);
+  width: 90%;
+  background-color: var(--dark-clr);
+  display: grid;
+  align-items: center;
+  grid-template-columns: 1fr 20fr 1fr;
+}
+
+.card-button{
+  font-size: var(--space-s-m);
+  padding: 0;
+  border: 0;
+  background-color: var(--dark-clr);
+  color: var(--light-clr);
 }
 
 /* SIDEBAR */
 
 .sidebar {
   font-family: "uchiyama";
-
   grid-area: sidebar;
   border-left: var(--ter-clr) 1px solid;
   box-shadow: 0 4px 30px rgba(217, 65, 93, 0.5);
@@ -281,7 +306,7 @@ nav {
   opacity: 0;
 }
 
-/* TEST */
+/* TOOLTIP */
 
 .tooltip-container {
   position: relative;
@@ -291,16 +316,16 @@ nav {
 .tooltip {
   visibility: hidden;
   position: absolute;
-  bottom: 100%; /* Position above the element */
+  bottom: 100%; 
   left: 50%;
   transform: translateX(-50%);
-  background-color: #333;
-  color: #fff;
+  background-color: var(--dark-clr);
+  color: var(--light-clr);
   padding: 8px;
-  border-radius: 4px;
-  white-space: nowrap; /* Prevents line breaks in the tooltip */
-  opacity: 0;
-  transition: opacity 0.3s, visibility 0.3s;
+  border-radius: 10px;
+  white-space: nowrap;
+  opacity: 0.7;
+  transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
 }
 
 .tooltip-container:hover .tooltip {

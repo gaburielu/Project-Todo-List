@@ -12,7 +12,7 @@ export class todo{
         this.dateCreated = formattedCurrentDate,
         this.dueDate = dueDate,
         this.priority = priority,
-        this.todoCheck = "false"
+        this.todoCheck = false
     }
 }
 

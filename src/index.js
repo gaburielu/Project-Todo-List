@@ -12,6 +12,7 @@ const dueDateInput = document.getElementById("dueDate");
 const closeForm = document.getElementById("closeForm");
 const toggleFooterButton = document.getElementById("footer-toggle");
 const footer = document.getElementById("hiddenFooter");
+const changeStatusButton = document.querySelectorAll("card-button");
 
 /////////////////////////////////////////
 
@@ -19,7 +20,8 @@ addTodoButton.addEventListener("click", () => {
   form.showModal();
 });
 
-closeForm.addEventListener("click", () => {
+closeForm.addEventListener("click", function (e) {
+  e.preventDefault();
   form.close();
 });
 
@@ -53,6 +55,7 @@ function clearFormFields() {
 }
 
 dueDateInput.addEventListener("input", function () {
+  //To default past dates as todays date
   const selectedDate = new Date(this.value);
   const today = new Date();
 
@@ -69,29 +72,37 @@ function displayTodoList() {
     card.classList.add("card");
 
     const text = document.createElement("span");
-    text.innerHTML = todoList[index].title + todoList[index].todoCheck;
+    text.innerHTML = todoList[index].title + " " + todoList[index].todoCheck;
 
     const changeStatusButton = document.createElement("button");
     changeStatusButton.classList.add("card-button");
     changeStatusButton.classList.add("read-status");
-    changeStatusButton.textContent = "Change Status";
+    changeStatusButton.textContent = "☐";
+    function updateButtonContent() {
+      if (todo.todoCheck === false) {
+        changeStatusButton.textContent = "☐";
+      } else {
+        changeStatusButton.textContent = "☑";
+      }
+    }
     changeStatusButton.addEventListener("click", () => {
       todo.todoCheck = !todo.todoCheck;
+      updateButtonContent();
       displayTodoList();
     });
+    updateButtonContent();
 
     const removeButton = document.createElement("button");
     removeButton.classList.add("card-button");
     removeButton.classList.add("remove-button");
-    removeButton.textContent = "Remove";
+    removeButton.textContent = '✘';
     removeButton.addEventListener("click", () => {
       todoList.splice(index, 1);
       displayTodoList();
     });
-
+    card.appendChild(removeButton);
     card.appendChild(text);
     card.appendChild(changeStatusButton);
-    card.appendChild(removeButton);
     listContainer.appendChild(card);
   });
 }
@@ -104,3 +115,11 @@ function toggleFooter() {
 }
 
 toggleFooterButton.addEventListener("click", toggleFooter);
+
+////////////////
+
+for (let i = 0; i < 20; i++) {
+  const newTodo = new todo(`${i} test`, "description", new Date(), "low");
+  todoList.push(newTodo);
+  displayTodoList();
+}
