@@ -8,11 +8,11 @@
   <body>
     <div class="mainBody">
       <div class="header">
-        <h1 class="header-title">To Do List &#10004;</h1>
+        <h1 class="header-title">To Do List &#10004;&#10004;</h1>
         <div class="sideHead">
           <a href="#" class="loginLink">login</a>
           <a href="#" class="signupLink">Sign up</a>
-          <button class="toggleDarkMode">darkmode</button>
+          <!-- <button class="toggleDarkMode">darkmode</button> -->
         </div>
       </div>
       <div class="mainContent">
@@ -20,80 +20,124 @@
       </div>
       <div class="sidebar">
         <div class="sidebar-head">
-          <div class="today text-hover">&#127137; All task</div>
-          <div class="daily text-hover">&#127163; Daily</div>
-          <div class="weekly text-hover">&#127165; Weekly</div>
-          <div class="monthly text-hover">&#127166; Monthly</div>
-          <div class="project text-hover">&#9872; Projects</div>
+          <button id="allTask" class="allTask text-hover renderbutton">
+            &#127137; All task
+          </button>
+          <div class="renderbutton">
+            ⚐ Projects
+          </div>
+          <div id="sidebar-project">
+          </div>
         </div>
-        <button id="addTodo" class="sidebar-content styled-button">
-          &#10010; Add Task
-        </button>
-        <dialog class="todoDialog" id="form-popup">
-          <form id="form" action="">
-            <div class="toDoForm">
+        <div class="sidebar-bottom">
+          <button id="addTodo" class="sidebar-content styled-button">
+            &#10010; Add Task
+          </button>
+          <dialog class="todoDialog" id="todo-form-popup">
+            <form id="form" action="">
+              <div class="toDoForm">
+                <div class="input-field">
+                  <label for="todoTitle">Title: </label>
+                  <input
+                    type="text"
+                    id="todoTitle"
+                    name="todoTitle"
+                    placeholder="Title for your to dos"
+                    required
+                  /><br />
+                </div>
+                <div class="input-field">
+                  <label for="todoDescription">Description and notes: </label>
+                  <input
+                    type="text"
+                    id="todoDescription"
+                    name="todoDescription"
+                    placeholder="To dos description or notes."
+                  /><br />
+                </div>
+                <div class="input-field tooltip-container">
+                  <div class="tooltip">Past dates will default to today.</div>
+                  <label for="dueDate">Due Date: </label>
+                  <input
+                    type="date"
+                    id="dueDate"
+                    name="dueDate"
+                    required
+                  /><br /><br />
+                </div>
+                <div class="form-row">
+                  <label for="project">Project Name: </label>
+                  <select id="project" name="project-name">
+                  </select>
+                </div>
+                <br />
+                <fieldset class="todoPriority">
+                  <legend>Priority:</legend>
+                  <input
+                    id="priorityLow"
+                    name="priority"
+                    type="radio"
+                    value="low"
+                    checked
+                  />
+                  <label for="priorityLow" class="radio-label">Low</label>
+                  <input
+                    id="priorityMedium"
+                    name="priority"
+                    type="radio"
+                    value="medium"
+                  />
+                  <label for="priorityMedium" class="radio-label">Medium</label>
+                  <input
+                    id="priorityHigh"
+                    name="priority"
+                    type="radio"
+                    value="high"
+                  />
+                  <label for="priorityHigh" class="radio-label">High</label>
+                </fieldset>
+                <br />
+              </div>
+              <div class="dialogFormButton">
+                <input
+                  class="dialog-button"
+                  type="submit"
+                  value="Submit"
+                /><br />
+                <button class="dialog-button" id="closeForm">Cancel</button
+                ><br />
+              </div>
+            </form>
+          </dialog>
+          <button id="addGoal" class="sidebar-content styled-button">
+            ⚑ Add Goal
+          </button>
+          <dialog class="projectDialog" id="project-form-popup">
+            <form id="ProjectForm" action="">
               <div class="input-field">
-                <label for="todoTitle">Title: </label>
+                <label for="newProject">Project Title: </label>
                 <input
                   type="text"
-                  id="todoTitle"
-                  name="todoTitle"
-                  placeholder="Title for your to dos"
+                  id="newProject"
+                  name="newProject"
+                  placeholder="Title for your new project"
+                  maxlength="16"
                   required
-                /><br /><br />
+                /><br />
               </div>
-              <div class="input-field">
-                <label for="todoDescription">Description and notes: </label>
+              <div class="ProjectDialogFormButton">
                 <input
-                  type="text"
-                  id="todoDescription"
-                  name="todoDescription"
-                  placeholder="To dos description or notes."
-                /><br /><br />
+                  class="dialog-button"
+                  type="submit"
+                  value="Submit"
+                /><br />
+                <button class="dialog-button" id="closeProjectForm">
+                  Cancel</button
+                ><br />
               </div>
-              <div class="input-field tooltip-container">
-                <div class="tooltip">Past dates will default to today.</div>
-                <label for="dueDate">Due Date: </label>
-                <input
-                  type="date"
-                  id="dueDate"
-                  name="dueDate"
-                  required
-                /><br /><br />
-              </div>
-              <fieldset class="todoPriority">
-                <legend>Priority:</legend>
-                <input
-                  id="priorityLow"
-                  name="priority"
-                  type="radio"
-                  value="low"
-                  checked
-                />
-                <label for="priorityLow" class="radio-label">Low</label>
-                <input
-                  id="priorityMedium"
-                  name="priority"
-                  type="radio"
-                  value="medium"
-                />
-                <label for="priorityMedium" class="radio-label">Medium</label>
-                <input
-                  id="priorityHigh"
-                  name="priority"
-                  type="radio"
-                  value="high"
-                />
-                <label for="priorityHigh" class="radio-label">High</label>
-              </fieldset>
-              <br />
-            </div>
-            <div class="dialogFormButton">
-              <input class="dialog-button" type="submit" value="Submit" /><br />
-              <button class="dialog-button" id="closeForm">Cancel</button><br />
-            </div>
-          </form>
-        </dialog>
+            </form>
+          </dialog>
+        </div>
       </div>
     </div>
     <nav id="hiddenFooter" class="feet hidden">

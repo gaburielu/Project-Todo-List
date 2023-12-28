@@ -1,26 +1,63 @@
-import { format, addDays, differenceInDays } from 'date-fns';
+import { format, addDays, differenceInDays } from "date-fns";
 
 const today = new Date();
 
-const formattedCurrentDate = format(today, 'dd-MM-yyyy');
-console.log(formattedCurrentDate);
+const formattedCurrentDate = format(today, "dd-MM-yyyy");
 
-export class todo{
-    constructor(title, description, dueDate, priority){
-        this.title = title,
-        this.description = description,
-        this.dateCreated = formattedCurrentDate,
-        this.dueDate = dueDate,
-        this.priority = priority,
-        this.todoCheck = false
+export class todo {
+  constructor(title, description, dueDate, priority, project) {
+    (this.title = title),
+      (this.description = description),
+      (this.dateCreated = new Date()),
+      (this.dueDate = dueDate),
+      (this.priority = priority),
+      (this.todoCheck = false),
+      (this.project = project);
+  }
+
+  test() {
+    console.log(this.dateCreated);
+    console.log(this.dueDate);
+  }
+
+  createTitleSpan() {
+    return `      ${
+      this.todoCheck
+        ? `<span style="color: #395d73"> ${this.title} </span>`
+        : `<span style="color: #6ba7bf"> ${this.title} </span>`
+    }`;
+  }
+
+  createDueDateSpan() {
+    return `      ${
+      this.todoCheck
+        ? `<span style="color: #395d73; font-size: var(--space-3xs-2xs);"> ${formatDate(
+            this.dueDate
+          )} </span>`
+        : `<span style="color: #6ba7bf; font-size: var(--space-3xs-2xs);"> ${formatDate(
+            this.dueDate
+          )} </span>`
+    }`;
+  }
+
+  createDescriptionComment() {
+    return `      ${
+      this.todoCheck
+        ? `<span class="tooltip" style="color: #395d73"> ${this.description} </span>`
+        : `<span class="tooltip" style="color: #6ba7bf"> ${this.description} </span>`
+    }`;
+  }
+  createPriorityIcon() {
+    if (this.priority === "high") {
+      return `<span style="color: red; font-size: var(--space-s-m);text-align: center;"> ✔ </span>`;
+    } else if (this.priority === "medium") {
+      return `<span style="color: orange; font-size: var(--space-s-m);text-align: center;"> ✔ </span>`;
+    } else {
+      return `<span style="color: yellow; font-size: var(--space-s-m);text-align: center;"> ✓ </span>`;
     }
+  }
 }
 
-export function addNewTodo(title, description, dueDate, priority){
-    const newTodo = new todo(title, description, dueDate, priority);
-    console.log(newTodo);
+function formatDate(date) {
+  return format(date, "dd/MM/yy");
 }
-
-// let newdo = new todo("exercise", "as per descrip", format(addDays(today, 5), 'dd-MM-yyyy'));
-
-// console.table(newdo);

@@ -1,50 +1,157 @@
 import "./style.css";
 import "./normalize.css";
-import { addNewTodo, todo } from "./todo.js";
-import { format, parseISO } from "date-fns";
+import { todo } from "./todo.js";
+import { displayTodoList, render } from "./render.js";
+import { format } from "date-fns";
 
-const listContainer = document.getElementById("listContainer");
-const todoList = [];
-const form = document.getElementById("form-popup");
+export const todoList = [];
+export const projectList = [];
+export let currentPage = "all";
+const todoForm = document.getElementById("todo-form-popup");
+const allTaskButton = document.getElementById("allTask");
+const projectForm = document.getElementById("project-form-popup");
+const addProjectButton = document.getElementById("addGoal");
 const addTodoButton = document.getElementById("addTodo");
 const submit = document.getElementById("form");
+const submitProject = document.getElementById("ProjectForm");
 const dueDateInput = document.getElementById("dueDate");
+const projectSelect = document.getElementById("project");
+const sidebarProjectList = document.getElementById("sidebar-project");
 const closeForm = document.getElementById("closeForm");
+const closeProjectForm = document.getElementById("closeProjectForm");
 const toggleFooterButton = document.getElementById("footer-toggle");
 const footer = document.getElementById("hiddenFooter");
-const changeStatusButton = document.querySelectorAll("card-button");
 
-/////////////////////////////////////////
+////////// EVENT LISTENER //////////
 
 addTodoButton.addEventListener("click", () => {
-  form.showModal();
+  todoForm.showModal();
 });
 
 closeForm.addEventListener("click", function (e) {
   e.preventDefault();
-  form.close();
+  todoForm.close();
 });
-
-/////////////////////////////////////////
 
 submit.addEventListener("submit", function (e) {
   e.preventDefault();
   const title = document.getElementById("todoTitle").value;
   const description = document.getElementById("todoDescription").value;
   const dueDate = document.getElementById("dueDate").value;
-  const formattedDate = format(dueDate, "dd-MM-yyyy");
   const priorityElement = document.querySelector(
     'input[name="priority"]:checked'
   );
   const priorityValue = priorityElement ? priorityElement.value : null;
+  const projectName = document.getElementById("project").value;
 
-  const newTodo = new todo(title, description, formattedDate, priorityValue);
+  const newTodo = new todo(
+    title,
+    description,
+    dueDate,
+    priorityValue,
+    projectName
+  );
   todoList.push(newTodo);
-  console.table(todoList);
+  newTodo.test();
   clearFormFields();
-  form.close();
-  displayTodoList();
+  todoForm.close();
+  render(todoList, projectList, currentPage);
 });
+
+addProjectButton.addEventListener("click", () => {
+  projectForm.showModal();
+});
+
+closeProjectForm.addEventListener("click", function (e) {
+  e.preventDefault();
+  clearFormFields();
+  projectForm.close();
+});
+
+submitProject.addEventListener("submit", function (e) {
+  e.preventDefault();
+  const projectTitle = document.getElementById("newProject").value;
+  addNewProject(projectTitle);
+  projectForm.close();
+});
+
+allTaskButton.addEventListener("click", () => handleProjectClick("all"));
+
+function addNewProject(projectTitle) {
+  if (projectList.length >= 5) {
+    alert("You have reached the maximum limit of 5 projects.");
+    clearFormFields();
+    return;
+  }
+
+  if (projectList.includes(projectTitle)) {
+    alert("Project with the same title already exists.");
+    clearFormFields();
+    return;
+  }
+  projectList.push(projectTitle);
+  document.getElementById("newProject").value = "";
+  populateProjects();
+}
+
+function removeProject(index) {
+  const projectToDelete = projectList[index];
+
+  const confirmation = window.confirm(
+    `Are you sure you want to remove the project "${projectToDelete}" and all associated todos?`
+  );
+
+  if (confirmation) {
+    projectList.splice(index, 1);
+
+    const updatedTodoList = todoList.filter(
+      (todo) => todo.project !== projectToDelete
+    );
+    todoList.length = 0;
+    Array.prototype.push.apply(todoList, updatedTodoList);
+
+    populateProjects();
+    render(todoList, projectList, currentPage);
+  }
+}
+
+function handleProjectClick(projectTitle) {
+  currentPage = projectTitle;
+  render(todoList, projectList, currentPage);
+  console.log(currentPage);
+}
+
+function populateProjects() {
+  projectSelect.innerHTML = "";
+  sidebarProjectList.innerHTML = "";
+
+  projectList.forEach((project, index) => {
+    const option = document.createElement("option");
+    option.value = project;
+    option.text = project;
+    projectSelect.appendChild(option);
+
+    const projectDisplay = document.createElement("div");
+    projectDisplay.classList.add("project-display");
+
+    const projectButton = document.createElement("button");
+    projectButton.classList.add("text-hover", "renderbutton");
+    projectButton.textContent = project;
+
+    projectButton.addEventListener("click", () => handleProjectClick(project));
+
+    const removeButton = document.createElement("button");
+    removeButton.classList.add("card-button", "remove-button");
+    removeButton.textContent = "✘";
+    removeButton.addEventListener("click", () => removeProject(index));
+
+    projectDisplay.appendChild(projectButton);
+    projectDisplay.appendChild(removeButton);
+
+    sidebarProjectList.appendChild(projectDisplay);
+    render(todoList, projectList, currentPage);
+  });
+}
 
 function clearFormFields() {
   const today = new Date();
@@ -64,49 +171,6 @@ dueDateInput.addEventListener("input", function () {
   }
 });
 
-function displayTodoList() {
-  listContainer.textContent = "";
-
-  todoList.forEach((todo, index) => {
-    const card = document.createElement("div");
-    card.classList.add("card");
-
-    const text = document.createElement("span");
-    text.innerHTML = todoList[index].title + " " + todoList[index].todoCheck;
-
-    const changeStatusButton = document.createElement("button");
-    changeStatusButton.classList.add("card-button");
-    changeStatusButton.classList.add("read-status");
-    changeStatusButton.textContent = "☐";
-    function updateButtonContent() {
-      if (todo.todoCheck === false) {
-        changeStatusButton.textContent = "☐";
-      } else {
-        changeStatusButton.textContent = "☑";
-      }
-    }
-    changeStatusButton.addEventListener("click", () => {
-      todo.todoCheck = !todo.todoCheck;
-      updateButtonContent();
-      displayTodoList();
-    });
-    updateButtonContent();
-
-    const removeButton = document.createElement("button");
-    removeButton.classList.add("card-button");
-    removeButton.classList.add("remove-button");
-    removeButton.textContent = '✘';
-    removeButton.addEventListener("click", () => {
-      todoList.splice(index, 1);
-      displayTodoList();
-    });
-    card.appendChild(removeButton);
-    card.appendChild(text);
-    card.appendChild(changeStatusButton);
-    listContainer.appendChild(card);
-  });
-}
-
 /////////////////////////////////////////
 
 function toggleFooter() {
@@ -116,10 +180,17 @@ function toggleFooter() {
 
 toggleFooterButton.addEventListener("click", toggleFooter);
 
-////////////////
+/////////////////////////////////////////
 
 for (let i = 0; i < 20; i++) {
-  const newTodo = new todo(`${i} test`, "description", new Date(), "low");
+  const newTodo = new todo(
+    `${i} test`,
+    "description",
+    new Date(),
+    "low",
+    "Misc"
+  );
   todoList.push(newTodo);
-  displayTodoList();
+  render(todoList, projectList, currentPage);
 }
+addNewProject("Misc");

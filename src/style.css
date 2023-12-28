@@ -55,8 +55,7 @@ body {
   grid-area: header;
   width: 100%;
   height: 100%;
-  border-bottom: var(--ter-clr) 2px solid;
-  box-shadow: 0 4px 30px rgba(217, 65, 93, 0.5);
+
   text-transform: uppercase;
   font-family: "uchiyama";
   display: flex;
@@ -78,13 +77,15 @@ body {
   gap: var(--space-xs-s);
 }
 
-.toggleDarkMode{
+.toggleDarkMode {
   font-size: var(--space-3xs-2xs);
 }
 
 /* MAIN CONTENT */
 
 .mainContent {
+  border-top: var(--ter-clr) 2px solid;
+  box-shadow: 0 4px 30px rgba(217, 65, 93, 0.5);
   overflow-y: auto;
   grid-area: content;
   font-size: var(--step--1);
@@ -95,7 +96,7 @@ body {
   display: flex;
 }
 
-.todoList{
+.todoList {
   margin: var(--space-xs-s);
   display: flex;
   flex-direction: column;
@@ -108,24 +109,29 @@ body {
 .card {
   font-size: medium;
   color: var(--sec-clr);
-  font-family: 'Courier New', Courier, monospace;
+  font-family: "Courier New", Courier, monospace;
   padding-left: var(--space-2xs-xs);
   border-bottom: 1px solid var(--qua-clr);
-  margin: var(--space-3xs-2xs);
-  padding: var(--space-3xs-2xs) var(--space-xs-s) var(--space-3xs-2xs) var(--space-xs-s);
+  margin: 0 var(--space-3xs-2xs);
+  padding: 0 var(--space-xs-s);
   width: 90%;
   background-color: var(--dark-clr);
   display: grid;
+  gap: var(--space-xs-s);
   align-items: center;
-  grid-template-columns: 1fr 20fr 1fr;
+  grid-template-columns: 1fr 14fr 2fr 1fr 1fr;
 }
 
-.card-button{
+.card-button {
   font-size: var(--space-s-m);
   padding: 0;
   border: 0;
   background-color: var(--dark-clr);
   color: var(--light-clr);
+}
+
+.remove-button:hover {
+  color: #d9415d;
 }
 
 /* SIDEBAR */
@@ -134,44 +140,73 @@ body {
   font-family: "uchiyama";
   grid-area: sidebar;
   border-left: var(--ter-clr) 1px solid;
+  border-top: var(--ter-clr) 2px solid;
   box-shadow: 0 4px 30px rgba(217, 65, 93, 0.5);
-  display: flex;
-  flex-direction: column;
-  justify-content: space-evenly;
-  padding-left: var(--space-m-l);
+  display: grid;
+  padding-left: var(--space-s-m);
+  grid-template-rows: 2fr 1fr;
+  grid-template-areas:
+    "top"
+    "bottom";
 }
 
 .sidebar-head {
+  width: 100%;
+  grid-area: top;
   display: flex;
+  justify-content: center;
   flex-direction: column;
-  gap: var(--space-s-m);
+  gap: var(--space-xs-s);
   font-size: var(--step-0);
+}
+
+  /* display: ; */
+
+.renderbutton {
+  width: 75%;
+  height: auto;
+  display: flex;
+  border: none;
+  padding: 0;
+  margin-bottom: var(--space-3xs-2xs);
+  overflow: hidden;
+  background: transparent;
+  color: inherit;
+  font: inherit;
 }
 
 .sidebar-content {
   font-size: var(--step-1);
 }
 
-.text-hover{
-}
-
-.text-hover:hover{
+.text-hover:hover {
   color: var(--qua-clr);
+  cursor: pointer;
 }
 
-.styled-button{
+.sidebar-bottom {
+  margin-top: var(--space-3xs-2xs);
+  width: 100%;
+  grid-area: bottom;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: var(--space-s-m);
+}
+
+.styled-button {
   border: none;
   padding: 0;
   margin: 0;
-  overflow: visible;
-  background: transparent;
+  overflow: hidden;
   color: inherit;
   font: inherit;
   line-height: normal;
-
   display: inline-block;
-  width: 200px;
-  height: 40px;
+  font-size: var(--space-xs-s);
+  width: 75%;
+  height: auto;
   background-color: var(--light-clr);
   border-radius: 4px;
   text-align: center;
@@ -181,6 +216,10 @@ body {
 
 .styled-button:hover {
   color: var(--qua-clr);
+}
+
+.project-display{
+  display: flex;
 }
 
 /* DIALOG/FORM */
@@ -194,9 +233,12 @@ body {
   border-radius: 15px;
 }
 
-.todoDialog::backdrop {
-  background: var(--sec-clr);
-  opacity: 0.5;
+.projectDialog {
+  padding: 1em;
+  min-width: 30vw;
+  max-width: 50ch;
+  height: clamp(100px, 18vh, 50%);
+  border-radius: 15px;
 }
 
 .input-field {
@@ -217,7 +259,8 @@ body {
   margin: 5px 0;
 }
 
-.dialogFormButton{
+.dialogFormButton,
+.ProjectDialogFormButton {
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -225,8 +268,21 @@ body {
 }
 
 #todoDescription,
-#todoTitle{
-  font-family: 'Courier New', Courier, monospace;
+#todoTitle,
+#newProject {
+  font-family: "Courier New", Courier, monospace;
+}
+
+#priorityLow:checked + .radio-label {
+  color: rgb(158, 158, 0);
+}
+
+#priorityMedium:checked + .radio-label {
+  color: orange;
+}
+
+#priorityHigh:checked + .radio-label {
+  color: red;
 }
 
 /*  */
@@ -316,7 +372,7 @@ nav {
 .tooltip {
   visibility: hidden;
   position: absolute;
-  bottom: 100%; 
+  bottom: 100%;
   left: 50%;
   transform: translateX(-50%);
   background-color: var(--dark-clr);
@@ -331,4 +387,23 @@ nav {
 .tooltip-container:hover .tooltip {
   visibility: visible;
   opacity: 1;
+}
+
+/* SCROLLBAR */
+
+::-webkit-scrollbar {
+  width: var(--space-3xs-2xs);
+}
+
+::-webkit-scrollbar-track {
+  background: var(--dark-clr); /* Track color */
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--pri-clr); /* Handle color */
+  border-radius: 6px; /* Border radius for a rounded appearance */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--sec-clr); /* Handle color on hover */
 }
