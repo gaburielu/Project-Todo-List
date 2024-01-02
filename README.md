@@ -1,7 +1,7 @@
 # Project-Todo-List
 A web To Do List you can use on the go!
 
-Link to project: 
+Link to project: https://gaburielu.github.io/Project-Todo-List/
 
 How It's Made:
 Tech used: HTML, CSS, JavaScript, Webpack and libraries of choices
