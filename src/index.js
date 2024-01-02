@@ -1,11 +1,11 @@
 import "./style.css";
 import "./normalize.css";
 import { todo } from "./todo.js";
-import { displayTodoList, render } from "./render.js";
 import { format } from "date-fns";
+import { render } from "./render.js";
 
-export const todoList = [];
-export const projectList = [];
+export let todoList = [];
+export let projectList = [];
 export let currentPage = "all";
 const todoForm = document.getElementById("todo-form-popup");
 const allTaskButton = document.getElementById("allTask");
@@ -23,6 +23,8 @@ const toggleFooterButton = document.getElementById("footer-toggle");
 const footer = document.getElementById("hiddenFooter");
 
 ////////// EVENT LISTENER //////////
+
+initializeData();
 
 addTodoButton.addEventListener("click", () => {
   todoForm.showModal();
@@ -52,7 +54,7 @@ submit.addEventListener("submit", function (e) {
     projectName
   );
   todoList.push(newTodo);
-  newTodo.test();
+  saveDataToLocalStorage();
   clearFormFields();
   todoForm.close();
   render(todoList, projectList, currentPage);
@@ -80,12 +82,14 @@ allTaskButton.addEventListener("click", () => handleProjectClick("all"));
 function addNewProject(projectTitle) {
   if (projectList.length >= 5) {
     alert("You have reached the maximum limit of 5 projects.");
+    document.getElementById("newProject").value = "";
     clearFormFields();
     return;
   }
 
   if (projectList.includes(projectTitle)) {
     alert("Project with the same title already exists.");
+    document.getElementById("newProject").value = "";
     clearFormFields();
     return;
   }
@@ -118,7 +122,6 @@ function removeProject(index) {
 function handleProjectClick(projectTitle) {
   currentPage = projectTitle;
   render(todoList, projectList, currentPage);
-  console.log(currentPage);
 }
 
 function populateProjects() {
@@ -150,6 +153,7 @@ function populateProjects() {
 
     sidebarProjectList.appendChild(projectDisplay);
     render(todoList, projectList, currentPage);
+    saveDataToLocalStorage();
   });
 }
 
@@ -182,15 +186,40 @@ toggleFooterButton.addEventListener("click", toggleFooter);
 
 /////////////////////////////////////////
 
-for (let i = 0; i < 20; i++) {
-  const newTodo = new todo(
-    `${i} test`,
-    "description",
-    new Date(),
-    "low",
-    "Misc"
-  );
-  todoList.push(newTodo);
-  render(todoList, projectList, currentPage);
+if (!projectList.includes("Misc")) {
+  addNewProject("Misc");
 }
-addNewProject("Misc");
+
+export function saveDataToLocalStorage() {
+  localStorage.setItem("todoList", JSON.stringify(todoList));
+  localStorage.setItem("projectList", JSON.stringify(projectList));
+}
+
+function getDataFromLocalStorage() {
+  let storedTodoList = localStorage.getItem("todoList");
+  let storedProjectList = localStorage.getItem("projectList");
+
+  return {
+    todoList: storedTodoList ? JSON.parse(storedTodoList) : [],
+    projectList: storedProjectList ? JSON.parse(storedProjectList) : [],
+  };
+}
+
+export function initializeData() {
+  const { todoList: storedTodoList, projectList: storedProjectList } =
+    getDataFromLocalStorage();
+
+  todoList = storedTodoList.map(
+    (todoData) =>
+      new todo(
+        todoData.title,
+        todoData.description,
+        todoData.dueDate,
+        todoData.priority,
+        todoData.project
+      )
+  );
+  projectList = storedProjectList;
+  currentPage = "all";
+  populateProjects();
+}

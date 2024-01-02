@@ -1,4 +1,4 @@
-import { format, addDays, differenceInDays } from "date-fns";
+import { format } from "date-fns";
 
 const today = new Date();
 
@@ -13,11 +13,6 @@ export class todo {
       (this.priority = priority),
       (this.todoCheck = false),
       (this.project = project);
-  }
-
-  test() {
-    console.log(this.dateCreated);
-    console.log(this.dueDate);
   }
 
   createTitleSpan() {

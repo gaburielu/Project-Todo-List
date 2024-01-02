@@ -1,5 +1,4 @@
-import { format, addDays, differenceInDays } from 'date-fns';
-import { todoList, projectList, currentPage } from "./index.js";
+import { todoList, projectList, currentPage, saveDataToLocalStorage } from "./index.js";
 
 const listContainer = document.getElementById("listContainer");
 
@@ -57,6 +56,7 @@ export function displayTodoList(list) {
     removeButton.addEventListener("click", () => {
       todoList.splice(index, 1);
       render(todoList, projectList, currentPage);
+      saveDataToLocalStorage();
     });
     return removeButton;
   }
